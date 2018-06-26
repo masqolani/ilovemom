@@ -96,7 +96,7 @@ class User_model extends CI_Model {
   	$data['first_name'] = $post['first_name'];
   	$data['last_name'] = $post['last_name'];
   	$data['email'] = $post['email'];
-    $data['password'] = $post['password'];
+    $data['password'] = md5($post['password']);
     $data['user_status_id'] = $post['user_status_id'];
 
 		$this->db->where('user_id', $post['user_id']);

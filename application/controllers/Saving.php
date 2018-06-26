@@ -53,60 +53,64 @@ class Saving extends CI_Controller {
 	}
 
 	public function create_saving() {
-		$post = $this->input->post();
+		if($this->session->userdata['logged_in']['user_status_id'] == "1") {
+			$post = $this->input->post();
 
-		if($post)
-		{
-			$saving = $this->session->savingdata['logged_in'];
+			if($post)
+			{
+				$saving = $this->session->savingdata['logged_in'];
 
-			$this->form_validation->set_rules('user_id', 'Name', 'trim|required');
-			$this->form_validation->set_rules('amount', 'Saving', 'trim|required');
+				$this->form_validation->set_rules('user_id', 'Name', 'trim|required');
+				$this->form_validation->set_rules('amount', 'Saving', 'trim|required');
 
-      if ($this->form_validation->run() === TRUE) {
-					//file upload code
-					//set file upload settings
-					$config['upload_path']        = realpath(APPPATH. '../assets/uploads/');
-					$config['allowed_types']      = 'jpg|png|jpeg';
-					$config['max_size'] 					= '2048000';
-					// $config['max_width'] 					= '1024';
-					// $config['max_height'] 				= '768';
+	      if ($this->form_validation->run() === TRUE) {
+						//file upload code
+						//set file upload settings
+						$config['upload_path']        = realpath(APPPATH. '../assets/uploads/');
+						$config['allowed_types']      = 'jpg|png|jpeg';
+						$config['max_size'] 					= '2048000';
+						// $config['max_width'] 					= '1024';
+						// $config['max_height'] 				= '768';
 
-					// print_r($config);die;
+						// print_r($config);die;
 
-					// $this->load->library('upload', $config);
-					$this->upload->initialize($config);
-					if ( ! $this->upload->do_upload('transfer_picture')){
-						$error = array('error' => $this->upload->display_errors());
+						// $this->load->library('upload', $config);
+						$this->upload->initialize($config);
+						if ( ! $this->upload->do_upload('transfer_picture')){
+							$error = array('error' => $this->upload->display_errors());
 
-						$this->load->view('saving/create_saving', $error);
-					} else {
+							$this->load->view('saving/create_saving', $error);
+						} else {
 
-						//file is uploaded successfully
-						//now get the file uploaded data
-						$upload_data = $this->upload->data();
+							//file is uploaded successfully
+							//now get the file uploaded data
+							$upload_data = $this->upload->data();
 
-						//get the uploaded file name
-						$post['transfer_picture'] = $upload_data['file_name'];
-						$post['saving_date'] = date('Y-m-d');
+							//get the uploaded file name
+							$post['transfer_picture'] = $upload_data['file_name'];
+							$post['saving_date'] = date('Y-m-d');
 
-						//store pic data to the db
-						$this->saving_model->add_saving($post);
+							//store pic data to the db
+							$this->saving_model->add_saving($post);
 
-						$this->session->set_flashdata('success', 'Saving has been created successfully');
-	          redirect('saving');
-					}
-      } else {
-          $this->session->set_flashdata('error', validation_errors());
-          redirect('saving/create_saving');
-      }
-		}
-		else
-		{
- 			$data['form_title'] = 'Add New Saving';
-			$data['form_action'] = base_url('saving/create_saving');
-			$data['user'] = $this->user_model->get_user();
+							$this->session->set_flashdata('success', 'Saving has been created successfully');
+		          redirect('saving');
+						}
+	      } else {
+	          $this->session->set_flashdata('error', validation_errors());
+	          redirect('saving/create_saving');
+	      }
+			}
+			else
+			{
+	 			$data['form_title'] = 'Add New Saving';
+				$data['form_action'] = base_url('saving/create_saving');
+				$data['user'] = $this->user_model->get_user();
 
-			$this->load->view('saving/saving_form_view', $data);
+				$this->load->view('saving/saving_form_view', $data);
+			}
+		} else {
+				redirect('saving');
 		}
 	}
 

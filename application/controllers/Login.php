@@ -65,11 +65,9 @@ class Login extends CI_Controller {
 
 	public function destroy()
 	{
-		$get = $this->input->get();
-
 		// Removing session data
 		$sess_array = array(
-			'username' => $get['username']
+			'username' => $this->session->userdata['logged_in']['username']
 		);
 
 		$this->session->unset_userdata('logged_in', $sess_array);

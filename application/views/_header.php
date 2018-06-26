@@ -15,6 +15,8 @@
 
     <title>I LOVE MOM</title>
 
+    <link rel="icon" href="http://pngimg.com/uploads/love/love_PNG8.png" type="image/x-icon">
+
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url('vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
 
@@ -124,7 +126,7 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                       <li><a href="#"><i class="fa fa-user fa-fw"></i><?php echo ' Hello '.$this->session->userdata['logged_in']['first_name']; ?></a></li>
+                       <li><a href="#"><i class="fa fa-user fa-fw"></i><?php echo ' Hello '.$this->session->userdata['logged_in']['first_name'].' '.$this->session->userdata['logged_in']['last_name']; ?></a></li>
                         <li><a href="<?php echo base_url('login/destroy'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
